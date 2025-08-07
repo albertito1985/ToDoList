@@ -1,0 +1,55 @@
+﻿@page "/todolist"
+@using ToDoList.Shared
+@using ToDoList.Client.Pages.ToDoListComponents
+@rendermode InteractiveWebAssembly
+@inject IToDoListState State
+<h3>ToDoList</h3>
+
+<EditForm Model="NewEntry" OnSubmit="@FormSubmitted" FormName="ToDoListForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group" >
+        <label for="entryName">Entry Name:</label>
+        <InputText id="entryName" class="form-control" @bind-Value="NewEntry.Name" />
+    </div>
+    <div class="form-group">
+        <label for="entryName">Entry Descrption:</label>
+        <InputText id="entryDescription" class="form-control" @bind-Value="NewEntry.Description" />
+    </div>
+    <button type="submit">Add</button>
+</EditForm>
+
+@if(Entries.Count == 0)
+{
+    <p>There are no entries in your ToDo list.</p>
+}
+else
+{
+    <table>
+        @foreach(ToDoListSingleEntryDTO entry in Entries)
+        {
+            <ToDoSingleEntry Entry=@entry />
+        }
+    </table>
+}
+
+@code {
+    public ToDoListSingleEntryDTO NewEntry { get; set; } = new();
+
+    public List<ToDoListSingleEntryDTO> Entries => State.Entries;
+
+    // public List<ToDoListSingleEntryDTO> Entries { get; set; } = new List<ToDoListSingleEntryDTO>
+    // {
+    //     new ToDoListSingleEntryDTO { Name = "Sample Task 1", Description = "This is a sample task description." },
+    //     new ToDoListSingleEntryDTO { Name = "Sample Task 2", Description = "This is another sample task description." }
+    // };
+
+    public void FormSubmitted()
+    {
+        if (!string.IsNullOrWhiteSpace(NewEntry.Name) && !string.IsNullOrWhiteSpace(NewEntry.Description))
+        {
+            State.AddEntry(NewEntry);
+            NewEntry = new ToDoListSingleEntryDTO(); // Reset the form
+        }
+    }
+}

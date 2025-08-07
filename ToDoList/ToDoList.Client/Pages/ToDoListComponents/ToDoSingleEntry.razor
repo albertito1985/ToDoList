@@ -1,0 +1,20 @@
+﻿@using ToDoList.Shared
+
+<tr>
+    <td>
+        @Entry.Name
+    </td>
+    <td>
+        @Entry.Description
+    </td>
+    <td>
+        <button>
+            Delete
+        </button>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public ToDoListSingleEntryDTO Entry { get; set; }
+}
