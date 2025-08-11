@@ -1,4 +1,4 @@
-﻿namespace ToDoList.Entities
+﻿namespace ToDoList.Domain
 {
     public class ToDoListList
     {

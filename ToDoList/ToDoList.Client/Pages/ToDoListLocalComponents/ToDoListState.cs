@@ -1,6 +1,6 @@
 ﻿using ToDoList.Shared;
 
-namespace ToDoList.Client.Pages.ToDoListComponents
+namespace ToDoList.Client.Pages.ToDoListLocalComponents
 {
     public class ToDoListState : IToDoListState
     {

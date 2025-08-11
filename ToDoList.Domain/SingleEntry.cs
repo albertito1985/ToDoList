@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ToDoList.Entities
+namespace ToDoList.Domain
 {
     public class SingleEntry
     {

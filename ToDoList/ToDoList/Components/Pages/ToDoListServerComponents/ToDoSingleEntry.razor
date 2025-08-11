@@ -1,0 +1,38 @@
+﻿@using ToDoList.Application.Interfaces
+@using ToDoList.Domain
+@using ToDoList.Shared
+
+<tr>
+    <td>
+        @Entry.Name
+    </td>
+    <td>
+        @Entry.Description
+    </td>
+
+    <td>
+        <button @onclick="HandleDelete">
+            Delete
+        </button>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public SingleEntry Entry { get; set; }
+
+    [Parameter]
+    public EventCallback OnDeleted { get; set; }
+
+    [Inject]
+    public IServiceManager serviceManager { get; set; } = default!;
+
+    public async Task HandleDelete()
+    {
+        await serviceManager.ToDoListSingleEntryService.DeleteByIdAsync(Entry.Id);
+        if (OnDeleted.HasDelegate)
+        {
+            await OnDeleted.InvokeAsync();
+        }
+    }
+}

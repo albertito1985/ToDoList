@@ -1,0 +1,38 @@
+﻿@page "/todolistserver"
+@using ToDoList.Domain
+@using ToDoList.Shared
+@using ToDoList.Components.Pages.ToDoListServerComponents
+@rendermode InteractiveServer
+@attribute [StreamRendering(true)]
+
+<h3>ToDoList</h3>
+
+<EditForm Model="NewEntry" OnSubmit="@FormSubmitted" FormName="ToDoListForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group" >
+        <label for="entryName">Entry Name:</label>
+        <InputText id="entryName" class="form-control" @bind-Value="NewEntry.Name" />
+    </div>
+    <div class="form-group">
+        <label for="entryName">Entry Descrption:</label>
+        <InputText id="entryDescription" class="form-control" @bind-Value="NewEntry.Description" />
+    </div>
+    <button type="submit">Add</button>
+</EditForm>
+
+@if(Entries.Count == 0)
+{
+    <p>There are no entries in your ToDo list.</p>
+}
+else
+{
+    <table>
+        @foreach(SingleEntry entry in Entries)
+        {
+            <ToDoSingleEntry Entry=@entry OnDeleted="RefreshList" />
+        }
+    </table>
+}
+
+

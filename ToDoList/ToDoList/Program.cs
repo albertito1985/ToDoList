@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Client.Pages;
-using ToDoList.Client.Pages.ToDoListComponents;
 using ToDoList.Components;
-using ToDoList.Data;
+using ToDoList.Infrastructure.Data;
+using ToDoList.Application.Interfaces;
+using ToDoList.Infrastructure.Repositories;
+using ToDoList.Extensions;
+using ToDoList.Client.Pages.ToDoListLocalComponents;
 
 namespace ToDoList
 {
@@ -14,12 +17,16 @@ namespace ToDoList
 
             // Add services to the container.
             builder.Services.AddRazorComponents()
+                .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
 
             builder.Services.AddSingleton<IToDoListState, ToDoListState>();
 
             builder.Services.AddDbContext<ToDoListContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ToDoListContext") ?? throw new InvalidOperationException("Connection string 'ToDoListContext' not found.")));
+
+            builder.Services.ConfigureServiceLayerServices();
+            builder.Services.ConfigureRepositoryLayerServices();
 
             var app = builder.Build();
 
@@ -41,6 +48,7 @@ namespace ToDoList
             app.UseAntiforgery();
 
             app.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode()
                 .AddInteractiveWebAssemblyRenderMode()
                 .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
 

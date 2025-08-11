@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using ToDoList.Client.Pages.ToDoListComponents;
+using ToDoList.Client.Pages.ToDoListLocalComponents;
 
 namespace ToDoList.Client
 {
